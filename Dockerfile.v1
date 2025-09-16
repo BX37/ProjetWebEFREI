@@ -1,0 +1,10 @@
+# Dockerfile.v1 - Node 18 Alpine
+FROM node:18-alpine
+WORKDIR /app
+# copy package manifests first for better cache usage
+COPY package.json package-lock.json* ./
+RUN npm install --production --no-audit --no-fund
+COPY . .
+EXPOSE 3000
+ENV NODE_ENV=production
+CMD ["node", "server.js"]
