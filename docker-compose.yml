@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  dernier-metro:
+    build:
+      context: .
+      dockerfile: Dockerfile.v1
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+    restart: unless-stopped

@@ -1,0 +1,74 @@
+openapi: 3.0.0
+info:
+  title: Dernier Metro API
+  version: '1.0'
+  description: API pédagogique qui simule la prochaine rame et indique si c'est la dernière.
+servers:
+  - url: http://localhost:3000
+    description: Local
+paths:
+  /health:
+    get:
+      summary: Status
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+  /next-metro:
+    get:
+      summary: Prochaine rame pour une station
+      parameters:
+        - in: query
+          name: station
+          schema:
+            type: string
+          required: true
+          description: Nom de la station (ex: Chatelet)
+        - in: query
+          name: line
+          schema:
+            type: string
+          required: false
+          description: Ligne (par défaut M1)
+        - in: query
+          name: headwayMin
+          schema:
+            type: integer
+          required: false
+          description: Fréquence en minutes (par défaut 3)
+      responses:
+        '200':
+          description: Prochaine rame ou service fermé
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      station: { type: string }
+                      line: { type: string }
+                      headwayMin: { type: integer }
+                      nextArrival: { type: string, example: '00:58' }
+                      isLast: { type: boolean }
+                      tz: { type: string, example: 'Europe/Paris' }
+                  - type: object
+                    properties:
+                      station: { type: string }
+                      line: { type: string }
+                      service: { type: string, example: 'closed' }
+                      tz: { type: string }
+        '400':
+          description: Paramètre manquant
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: { type: string, example: 'missing station' }
