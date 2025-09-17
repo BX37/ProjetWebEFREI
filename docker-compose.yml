@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   dernier-metro:
     build:
@@ -8,4 +9,29 @@ services:
       - "3000:3000"
     environment:
       - PORT=3000
-    restart: unless-stopped
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./openapi.yaml:/openapi.yaml
+    environment:
+      SWAGGER_JSON: /openapi.yaml
+
+      db: 
+      image: postgres:16
+      environnment: 
+        POSTGRES_USER: ${POSTGRES_USER:-user}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+        POSTGRES_DB: ${POSTGRES_DB:-dernier_metro}
+        volumes:
+          - dbdata:/var/lib/postgresql/data
+
+          healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-user} -d ${POSTGRES_DB:-dernier_metro}"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+volumes:
+  dbdata:

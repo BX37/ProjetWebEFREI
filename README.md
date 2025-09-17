@@ -1,6 +1,10 @@
 # Dernier Metro - Projet pédagogique
 
-Petit service qui simule si un usager peut attraper le **dernier métro** à Paris.
+Résolution des problemes de CONST en faisant 'npm install cors' dans le terminal, 
+SWAGGER est fonctionnel en localhost:8080
+
+
+
 
 ## Ce que contient ce dépôt
 - `server.js` : application Express minimale

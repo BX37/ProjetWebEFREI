@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 
+const cors = require('cors');
+app.use(cors());  // Active CORS pour toutes les routes
+
 const PORT = process.env.PORT || 3000;
 const HEADWAY_MIN = parseInt(process.env.HEADWAY_MIN || '3', 10);
 const LAST_WINDOW_START = process.env.LAST_WINDOW_START || '00:45';
@@ -150,6 +153,11 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'internal error' });
 });
 
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./openapi.yaml');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(PORT, () => {
   console.log(`Dernier Metro API listening on port ${PORT}`);

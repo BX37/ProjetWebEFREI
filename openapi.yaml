@@ -1,18 +1,21 @@
 openapi: 3.0.0
 info:
   title: Dernier Metro API
-  version: '1.0'
-  description: API pédagogique qui simule la prochaine rame et indique si c'est la dernière.
+  version: "1.0.0"
+  description: >
+    API pédagogique qui simule la prochaine rame et indique si c'est la dernière.
+    Horaires simulés : 05:30 → 01:15 (fuseau horaire : Europe/Paris).
 servers:
   - url: http://localhost:3000
-    description: Local
+    description: Serveur local
+
 paths:
   /health:
     get:
-      summary: Status
+      summary: Vérification du service
       responses:
         '200':
-          description: OK
+          description: Service disponible
           content:
             application/json:
               schema:
@@ -21,54 +24,107 @@ paths:
                   status:
                     type: string
                     example: ok
+
   /next-metro:
     get:
-      summary: Prochaine rame pour une station
+      summary: Prochains passages à une station
       parameters:
         - in: query
           name: station
+          required: true
           schema:
             type: string
-          required: true
-          description: Nom de la station (ex: Chatelet)
+          description: "Nom de la station (ex: Chatelet). Obligatoire."
         - in: query
           name: line
+          required: false
           schema:
             type: string
-          required: false
-          description: Ligne (par défaut M1)
+          description: "Ligne de métro (par défaut : M1)."
         - in: query
           name: headwayMin
+          required: false
           schema:
             type: integer
+          description: >
+            Fréquence en minutes entre deux rames (par défaut : 3 ou via la variable d'environnement HEADWAY_MIN).
+            Doit être un entier positif.
+        - in: query
+          name: n
           required: false
-          description: Fréquence en minutes (par défaut 3)
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5
+          description: "Nombre de prochains passages à retourner (entre 1 et 5, par défaut : 1)."
+
       responses:
         '200':
-          description: Prochaine rame ou service fermé
+          description: Prochaine(s) rame(s) ou service fermé
           content:
             application/json:
               schema:
                 oneOf:
                   - type: object
                     properties:
-                      station: { type: string }
-                      line: { type: string }
-                      headwayMin: { type: integer }
-                      nextArrival: { type: string, example: '00:58' }
-                      isLast: { type: boolean }
-                      tz: { type: string, example: 'Europe/Paris' }
+                      station:
+                        type: string
+                        example: "Chatelet"
+                      line:
+                        type: string
+                        example: "M1"
+                      headwayMin:
+                        type: integer
+                        example: 3
+                      nextArrivals:
+                        type: array
+                        items:
+                          type: string
+                          example: "00:58"
+                      isLast:
+                        type: boolean
+                        example: false
+                      tz:
+                        type: string
+                        example: "Europe/Paris"
                   - type: object
                     properties:
-                      station: { type: string }
-                      line: { type: string }
-                      service: { type: string, example: 'closed' }
-                      tz: { type: string }
+                      station:
+                        type: string
+                        example: "Chatelet"
+                      line:
+                        type: string
+                        example: "M1"
+                      service:
+                        type: string
+                        example: "closed"
+                      tz:
+                        type: string
+                        example: "Europe/Paris"
+
         '400':
-          description: Paramètre manquant
+          description: Paramètre manquant ou invalide
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  error: { type: string, example: 'missing station' }
+                  error:
+                    type: string
+                    example: "missing station"
+
+        '404':
+          description: Station inconnue
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "unknown station"
+                  suggestions:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Chatelet", "Gare de Lyon"]
