@@ -1,0 +1,3 @@
+--INSERT INTO config (key, value) VALUES
+--('metro', '{"headway":3, "timezone":"Europe/Paris","lines":[{"name":"M1","color":"red","stations"}]}')
+--ON CONFLICT (key) DO NOTHING;

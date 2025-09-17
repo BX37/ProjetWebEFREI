@@ -1,0 +1,6 @@
+--CREATE TABLE IF NOT EXISTS users (
+   -- id SERIAL PRIMARY KEY,
+    --key TEXT UNIQUE NOT NULL,
+    --value JSONB NOT NULL,
+    --updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+--);
