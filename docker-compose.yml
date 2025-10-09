@@ -27,6 +27,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-dernier_metro}
     volumes:
       - dbdata:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
     healthcheck:
