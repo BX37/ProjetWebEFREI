@@ -1,10 +1,14 @@
 # Dernier Metro - Projet pédagogique
 
+<<<<<<< HEAD
 Résolution des problemes de CONST en faisant 'npm install cors' dans le terminal, 
 SWAGGER est fonctionnel en localhost:8080
 
 
 
+=======
+Petit service qui simule si un usager peut attraper le **dernier métro** à Paris.
+>>>>>>> 1dcf19b80fd042b48251d4416155c633c87f7aa8
 
 ## Ce que contient ce dépôt
 - `server.js` : application Express minimale

@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 FROM node:18-alpine 
 WORKDIR /app
+=======
+# Dockerfile.v1 - Node 18 Alpine
+FROM node:18-alpine
+WORKDIR /app
+# copy package manifests first for better cache usage
+>>>>>>> 1dcf19b80fd042b48251d4416155c633c87f7aa8
 COPY package.json package-lock.json* ./
 RUN npm install --production --no-audit --no-fund
 COPY . .

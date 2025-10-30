@@ -4,4 +4,7 @@ npm-debug.log
 .env
 logs
 .DS_Store
+<<<<<<< HEAD
 .history
+=======
+>>>>>>> 1dcf19b80fd042b48251d4416155c633c87f7aa8

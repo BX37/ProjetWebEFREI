@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 services:
   dernier-metro:
     build:
@@ -50,3 +51,16 @@ services:
 
 volumes:
   dbdata:
+=======
+version: '3.8'
+services:
+  dernier-metro:
+    build:
+      context: .
+      dockerfile: Dockerfile.v1
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+    restart: unless-stopped
+>>>>>>> 1dcf19b80fd042b48251d4416155c633c87f7aa8

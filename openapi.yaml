@@ -1,6 +1,7 @@
 openapi: 3.0.0
 info:
   title: Dernier Metro API
+<<<<<<< HEAD
   version: "1.0.0"
   description: >
     API pédagogique qui simule la prochaine rame et indique si c'est la dernière.
@@ -16,6 +17,20 @@ paths:
       responses:
         '200':
           description: Service disponible
+=======
+  version: '1.0'
+  description: API pédagogique qui simule la prochaine rame et indique si c'est la dernière.
+servers:
+  - url: http://localhost:3000
+    description: Local
+paths:
+  /health:
+    get:
+      summary: Status
+      responses:
+        '200':
+          description: OK
+>>>>>>> 1dcf19b80fd042b48251d4416155c633c87f7aa8
           content:
             application/json:
               schema:
@@ -24,6 +39,7 @@ paths:
                   status:
                     type: string
                     example: ok
+<<<<<<< HEAD
 
   /next-metro:
     get:
@@ -61,12 +77,40 @@ paths:
       responses:
         '200':
           description: Prochaine(s) rame(s) ou service fermé
+=======
+  /next-metro:
+    get:
+      summary: Prochaine rame pour une station
+      parameters:
+        - in: query
+          name: station
+          schema:
+            type: string
+          required: true
+          description: Nom de la station (ex: Chatelet)
+        - in: query
+          name: line
+          schema:
+            type: string
+          required: false
+          description: Ligne (par défaut M1)
+        - in: query
+          name: headwayMin
+          schema:
+            type: integer
+          required: false
+          description: Fréquence en minutes (par défaut 3)
+      responses:
+        '200':
+          description: Prochaine rame ou service fermé
+>>>>>>> 1dcf19b80fd042b48251d4416155c633c87f7aa8
           content:
             application/json:
               schema:
                 oneOf:
                   - type: object
                     properties:
+<<<<<<< HEAD
                       station:
                         type: string
                         example: "Chatelet"
@@ -104,11 +148,28 @@ paths:
 
         '400':
           description: Paramètre manquant ou invalide
+=======
+                      station: { type: string }
+                      line: { type: string }
+                      headwayMin: { type: integer }
+                      nextArrival: { type: string, example: '00:58' }
+                      isLast: { type: boolean }
+                      tz: { type: string, example: 'Europe/Paris' }
+                  - type: object
+                    properties:
+                      station: { type: string }
+                      line: { type: string }
+                      service: { type: string, example: 'closed' }
+                      tz: { type: string }
+        '400':
+          description: Paramètre manquant
+>>>>>>> 1dcf19b80fd042b48251d4416155c633c87f7aa8
           content:
             application/json:
               schema:
                 type: object
                 properties:
+<<<<<<< HEAD
                   error:
                     type: string
                     example: "missing station"
@@ -128,3 +189,6 @@ paths:
                     items:
                       type: string
                     example: ["Chatelet", "Gare de Lyon"]
+=======
+                  error: { type: string, example: 'missing station' }
+>>>>>>> 1dcf19b80fd042b48251d4416155c633c87f7aa8
