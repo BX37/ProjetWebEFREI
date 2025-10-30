@@ -1,0 +1,32 @@
+stages:
+  - lint
+  - test
+
+variables:
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .npm/
+
+lint:
+  stage: lint
+  image: node:18-alpine
+  script:
+    - npm ci
+    - npx eslint .
+  allow_failure: true
+  only:
+    - merge_requests
+    - main
+
+test:
+  stage: test
+  image: node:18-alpine
+  script:
+    - npm ci
+    - npm test
+  only:
+    - merge_requests
+    - main
